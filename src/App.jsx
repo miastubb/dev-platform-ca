@@ -1,26 +1,28 @@
-import { useEffect } from "react";
-import { supabase } from "./lib/supabase";
+import { useState } from "react";
+import AuthForm from "./components/AuthForm";
 
 function App() {
-  useEffect(() => {
-    async function testConnection() {
-      const { data, error } = await supabase.from("posts").select("*").limit(1);
+  const [mode, setMode] = useState("login");
 
-      if (error) {
-        console.error("Supabase error:", error.message);
-        return;
-      }
-
-      console.log("Supabase connection successful!", data);
-    }
-
-    testConnection();
-  }, []);
+  function toggleMode() {
+    setMode((current) => (current === "login" ? "register" : "login"));
+  }
 
   return (
     <main>
       <h1>Course Assignment</h1>
-      <p>Testing Supabase connection...</p>
+
+      <AuthForm key={mode} mode={mode} />
+
+      <p>
+        {mode === "login"
+          ? "Don't have an account?"
+          : "Already have an account?"}
+      </p>
+
+      <button type="button" onClick={toggleMode}>
+        {mode === "login" ? "Register" : "Login"}
+      </button>
     </main>
   );
 }
