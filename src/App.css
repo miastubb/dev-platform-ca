@@ -283,4 +283,9 @@
   .header-nav a {
     font-size: 0.8rem;
   }
-}
+} 
+
+  .article-content {
+    white-space: pre-wrap;
+  }
+

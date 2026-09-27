@@ -40,7 +40,7 @@ export default function ArticleList() {
       {articles.map((article) => (
         <article key={article.id}>
           <h3>{article.title}</h3>
-          <p>{article.content}</p>
+          <p className="article-content">{article.content}</p>
           <time dateTime={article.created_at}>
             {new Date(article.created_at).toLocaleString()}
           </time>
