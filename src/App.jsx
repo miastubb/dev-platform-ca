@@ -1,5 +1,6 @@
 import { useState } from "react";
 import AuthForm from "./components/AuthForm";
+import ArticleList from "./components/ArticleList";
 
 function App() {
   const [mode, setMode] = useState("login");
@@ -11,6 +12,8 @@ function App() {
   return (
     <main>
       <h1>Course Assignment</h1>
+
+      <ArticleList />
 
       <AuthForm key={mode} mode={mode} />
 
