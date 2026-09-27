@@ -3,6 +3,7 @@ import AuthForm from "./components/AuthForm";
 import ArticleList from "./components/ArticleList";
 import ArticleForm from "./components/ArticleForm";
 import { supabase } from "./lib/supabase";
+import "./App.css";
 
 function App() {
   const [mode, setMode] = useState("login");
@@ -64,41 +65,82 @@ function App() {
   }
 
   return (
-    <main>
-      <h1>Course Assignment</h1>
+    <div className="site-wrapper">
+      <header className="site-header">
+        <div className="header-inner">
+          <div className="brand">
+            <span className="brand-name">THE DAILY.</span>
+            <span className="brand-tagline">STORIES WORTH READING</span>
+          </div>
 
-      {authError && <p role="alert">{authError}</p>}
+          <nav className="header-nav" aria-label="Main navigation">
+            <a href="#articles">Articles</a>
 
-      <ArticleList key={articleVersion} />
+            {!authLoading && (
+              <a href="#account">{session ? "Publish" : "Login"}</a>
+            )}
+          </nav>
+        </div>
+      </header>
 
-      {authLoading ? (
-        <p>Checking authentication...</p>
-      ) : session ? (
-        <>
-          <p>Signed in as {session.user.email}</p>
+      <main className="site-main">
+        <section className="hero">
+          <span className="hero-eyebrow">YOUR DAILY READ</span>
+          <h1>A fresh perspective on the stories that matter.</h1>
+          <p>Explore the latest articles and share your own.</p>
+        </section>
 
-          <button type="button" onClick={handleLogout}>
-            Logout
-          </button>
+        {authError && <p role="alert">{authError}</p>}
 
-          <ArticleForm onArticleCreated={handleArticleCreated} />
-        </>
-      ) : (
-        <>
-          <AuthForm key={mode} mode={mode} />
+        <div className="content-layout">
+          <div className="articles-column" id="articles">
+            <ArticleList key={articleVersion} />
+          </div>
 
-          <p>
-            {mode === "login"
-              ? "Don't have an account?"
-              : "Already have an account?"}
-          </p>
+          <aside className="sidebar" id="account">
+            {authLoading ? (
+              <p>Checking authentication...</p>
+            ) : session ? (
+              <>
+                <p className="signed-in">Signed in as {session.user.email}</p>
 
-          <button type="button" onClick={toggleMode}>
-            {mode === "login" ? "Register" : "Login"}
-          </button>
-        </>
-      )}
-    </main>
+                <ArticleForm onArticleCreated={handleArticleCreated} />
+
+                <button
+                  className="logout-button"
+                  type="button"
+                  onClick={handleLogout}
+                >
+                  Logout
+                </button>
+              </>
+            ) : (
+              <>
+                <AuthForm key={mode} mode={mode} />
+
+                <p className="auth-prompt">
+                  {mode === "login"
+                    ? "Don't have an account?"
+                    : "Already have an account?"}
+                </p>
+
+                <button
+                  className="switch-auth-button"
+                  type="button"
+                  onClick={toggleMode}
+                >
+                  {mode === "login" ? "Register" : "Login"}
+                </button>
+              </>
+            )}
+          </aside>
+        </div>
+      </main>
+
+      <footer className="site-footer">
+        <p>THE DAILY. &copy; {new Date().getFullYear()}</p>
+      </footer>
+    </div>
   );
 }
 
