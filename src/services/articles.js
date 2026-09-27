@@ -12,3 +12,20 @@ export async function fetchArticles() {
 
   return data;
 }
+
+export async function createArticle({ title, content }) {
+  const { data, error } = await supabase
+    .from("posts")
+    .insert({
+      title: title.trim(),
+      content: content.trim(),
+    })
+    .select()
+    .single();
+
+  if (error) {
+    throw error;
+  }
+
+  return data;
+}
