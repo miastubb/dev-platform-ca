@@ -5,6 +5,7 @@ export default function AuthForm({ mode = "login" }) {
   const isRegister = mode === "register";
 
   const [email, setEmail] = useState("");
+  const [fullName, setFullName] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -12,18 +13,27 @@ export default function AuthForm({ mode = "login" }) {
 
   async function handleSubmit(event) {
     event.preventDefault();
+
     setError("");
     setMessage("");
+
+    if (isRegister && fullName.trim().length < 2) {
+      setError("Please enter your full name.");
+      return;
+    }
+
     setLoading(true);
 
     try {
       if (isRegister) {
-        await signUp(email, password);
+        await signUp(email, password, fullName);
+
         setMessage(
           "Registration successful! Check your email to confirm your account.",
         );
       } else {
         await signIn(email, password);
+
         setMessage("You are now logged in!");
       }
     } catch (err) {
@@ -36,6 +46,22 @@ export default function AuthForm({ mode = "login" }) {
   return (
     <form onSubmit={handleSubmit}>
       <h1>{isRegister ? "Register" : "Login"}</h1>
+
+      {isRegister && (
+        <div>
+          <label htmlFor="full-name">Full name</label>
+          <input
+            id="full-name"
+            type="text"
+            value={fullName}
+            onChange={(event) => setFullName(event.target.value)}
+            autoComplete="name"
+            minLength={2}
+            maxLength={100}
+            required
+          />
+        </div>
+      )}
 
       <div>
         <label htmlFor="email">Email</label>
