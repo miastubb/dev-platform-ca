@@ -3,6 +3,7 @@ import AuthForm from "./components/AuthForm";
 import ArticleList from "./components/ArticleList";
 import ArticleForm from "./components/ArticleForm";
 import { supabase } from "./lib/supabase";
+import { signOut } from "./services/auth";
 import "./App.css";
 
 function App() {
@@ -53,9 +54,9 @@ function App() {
   async function handleLogout() {
     setAuthError("");
 
-    const { error } = await supabase.auth.signOut();
-
-    if (error) {
+    try {
+      await signOut();
+    } catch (error) {
       setAuthError(error.message);
     }
   }
