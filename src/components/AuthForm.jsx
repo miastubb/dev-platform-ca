@@ -10,6 +10,7 @@ export default function AuthForm({ mode = "login" }) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
 
   async function handleSubmit(event) {
     event.preventDefault();
@@ -79,13 +80,23 @@ export default function AuthForm({ mode = "login" }) {
         <label htmlFor="password">Password</label>
         <input
           id="password"
-          type="password"
+          type={showPassword ? "text" : "password"}
           value={password}
           onChange={(event) => setPassword(event.target.value)}
           autoComplete={isRegister ? "new-password" : "current-password"}
           minLength={6}
           required
         />
+
+        <label htmlFor="show-password">
+          <input
+            id="show-password"
+            type="checkbox"
+            checked={showPassword}
+            onChange={(event) => setShowPassword(event.target.checked)}
+          />
+          Show password
+        </label>
       </div>
 
       {error && <p role="alert">{error}</p>}
