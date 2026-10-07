@@ -47,3 +47,40 @@ Clone the repository:
 ```bash
 git clone https://github.com/miastubb/dev-platform-ca.git
 ```
+
+Navigate to the project directory:
+
+```bash
+cd dev-platform-ca
+```
+
+Install the project dependencies:
+
+```bash
+npm install
+```
+
+### Environment Variables
+
+Create a `.env` file in the root of the project.
+
+The repository includes an `.env.example` file showing the environment variables required by the application:
+
+```env
+VITE_SUPABASE_URL=
+VITE_SUPABASE_ANON_KEY=
+```
+
+Add the Supabase environment variable values provided with the Moodle submission.
+
+The local `.env` file is excluded from Git and should not be committed to the repository.
+
+### Run Locally
+
+Start the Vite development server:
+
+```bash
+npm run dev
+```
+
+Open the local URL shown in the terminal to view the application.
